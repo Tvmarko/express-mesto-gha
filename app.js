@@ -17,8 +17,17 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
+app.use((req, res, next) => {
+  req.user = { _id: '62af0153041e820a142eac1c' };
+  next();
+});
+
 app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
+
+app.use((req, res) => {
+  res.status(404).send({ message: 'Запрашиваемый контент не найден' });
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
