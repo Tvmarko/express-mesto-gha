@@ -27,7 +27,7 @@ module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый контент не найден' });
+        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый ресурс не найден' });
         return;
       }
       res.status(200).send(card);
@@ -49,7 +49,7 @@ module.exports.likeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый контент не найден' });
+        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый ресурс не найден' });
         return;
       }
       res.status(200).send(card);
@@ -71,7 +71,7 @@ module.exports.dislikeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый контент не найден' });
+        res.status(NOTFOUND_ERROR).send({ message: 'Запрашиваемый ресурс не найден' });
         return;
       }
       res.status(200).send(card);
