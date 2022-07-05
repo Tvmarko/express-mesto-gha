@@ -21,8 +21,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use('/users', userRoutes);
-app.use('/cards', cardRoutes);
+app.use('/users', auth, userRoutes);
+app.use('/cards', auth, cardRoutes);
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -41,7 +41,6 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
-app.use(auth);
 app.use(errors());
 
 app.use((err, req, res, next) => {
