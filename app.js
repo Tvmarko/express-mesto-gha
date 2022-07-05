@@ -7,6 +7,7 @@ const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/notfound-error');
 
 const { PORT = 3000 } = process.env;
 
@@ -41,6 +42,7 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
+app.use((req, res, next) => next(new NotFoundError('Запрашиваемые данные не найдены')));
 app.use(errors());
 
 app.use((err, req, res, next) => {
