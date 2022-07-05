@@ -82,11 +82,6 @@ module.exports.login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new AuthError('Ошибка авторизации');
-      }
-    })
     .catch(next);
 };
 
