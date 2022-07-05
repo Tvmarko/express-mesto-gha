@@ -51,7 +51,15 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      res.status(200).send({
+        _id: user._id,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+      });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
@@ -65,7 +73,7 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findUserByCreditians(email, password)
+  User.findUserByCreditials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
