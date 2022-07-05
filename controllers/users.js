@@ -73,17 +73,14 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findUserByCreditials(email, password)
+  User.findUserByCreditians(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
         'super-strong-secret',
         { expiresIn: '7d' },
       );
-      res.cookie('jwt', token, {
-        maxAge: 3600000,
-        httpOnly: true,
-      }).end();
+      res.send({ token });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
