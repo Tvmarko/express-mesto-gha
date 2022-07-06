@@ -30,11 +30,6 @@ module.exports.findUserById = (req, res, next) => {
       }
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestError('Переданы некорректные данные');
-      }
-    })
     .catch(next);
 };
 
