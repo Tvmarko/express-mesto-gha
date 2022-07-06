@@ -4,7 +4,6 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/badrequest-error');
 const NotFoundError = require('../errors/notfound-error');
 const ConflictError = require('../errors/conflict-error');
-const AuthError = require('../errors/auth-error');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -81,11 +80,6 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
       res.send({ token });
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new AuthError('Ошибка авторизации');
-      }
     })
     .catch(next);
 };
