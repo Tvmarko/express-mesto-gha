@@ -1,7 +1,7 @@
 const BADREQUEST_ERROR = 400;
 const NOTFOUND_ERROR = 404;
 const AUTH_ERROR = 401;
-const CONFLICT_ERROR = 409;
+const CONFLICT_ERROR = 403;
 const VORBIDDEN_ERROR = 409;
 
 module.exports = {
