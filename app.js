@@ -24,8 +24,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use('/users', auth, userRoutes);
-app.use('/cards', auth, cardRoutes);
+app.use(auth);
+
+app.use('/users', userRoutes);
+app.use('/cards', cardRoutes);
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
