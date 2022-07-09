@@ -8,6 +8,7 @@ const cardRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/notfound-error');
+const { URL_REGEX } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
 
@@ -29,8 +30,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string()
-      .regex(/^((http|https):\/\/)(www\.)?([\w\W\d]{1,})(\.)([A-Za-z]{1,10})([\w\W\d]{1,})?$/),
+    avatar: Joi.string().regex(URL_REGEX),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
