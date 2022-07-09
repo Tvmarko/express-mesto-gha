@@ -7,6 +7,7 @@ const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const errorsHandler = require('./middlewares/error-handler');
 const NotFoundError = require('./errors/notfound-error');
 const { URL_REGEX } = require('./utils/constants');
 
@@ -45,10 +46,6 @@ app.post('/signin', celebrate({
 app.use((req, res, next) => next(new NotFoundError('Запрашиваемые данные не найдены')));
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
-  next();
-});
+app.use(errorsHandler);
 
 app.listen(PORT, () => PORT);
