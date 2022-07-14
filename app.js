@@ -8,10 +8,12 @@ const cardRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const errorsHandler = require('./middlewares/error-handler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/notfound-error');
 const { URL_REGEX } = require('./utils/constants');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
@@ -24,8 +26,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use('/users', auth, userRoutes);
-app.use('/cards', auth, cardRoutes);
+app.use(cors);
+app.use(requestLogger);
+
+app.use(auth);
+app.use('/users', userRoutes);
+app.use('/cards', cardRoutes);
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -43,9 +49,10 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
+app.use(errorLogger);
+
 app.use((req, res, next) => next(new NotFoundError('Запрашиваемые данные не найдены')));
 app.use(errors());
-
 app.use(errorsHandler);
 
 app.listen(PORT, () => PORT);
